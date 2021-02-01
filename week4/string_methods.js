@@ -1,8 +1,8 @@
 //1
-function capitalizeAndLowercase(str1) {
-    return str1.toUpperCase() + str1.toLowerCase();
+function capitalizeAndLowerCase(str1) {
+    return str1.toLocaleUpperCase() + str1.toLocaleLowerCase();
 }
-console.log(capitalizeAndLowercase("Hello"));
+console.log(capitalizeAndLowerCase("Hello"));
 
 //2
 function findMiddleIndex(str2) {
