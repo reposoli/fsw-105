@@ -1,74 +1,94 @@
 const readlineSync = require('readline-sync');
 
-const name = readlineSync.question('What is you name? ');
+const name = readlineSync.question('Welcome to the Krypt. What is your name? ');
 
-readlineSync.question('Hello ' + name +', Welcome to My Game. Press Enter to begin ');
+readlineSync.question(name + ', Can you find your way out the Krypt without being attacked? press Enter to begin and Best of Luck!');
 
-const villains = ['Bellatrix Lestrange' , 'Queen of Hearts' , 'Cruella de Vil' , 'Jadis the White Witch'];
-const treasure = ['Medkit' , 'Security Armor' , 'Berserk Pack' , 'Health Potion'];
-var prize = [];
-let userHealth = 50;
-const options = ['Walk' , 'Exit' , 'Print'];
-let pickUp = treasure[Math.floor(Math.random()*treasure.length)];
+const enemies = ['Krypt Monster', 'Aragog Agromantula', 'Nagini Basilisk']
+const tools = ['Health', 'Ammo', 'Escape Map', 'Light']
+var escape = []
+let pH = 40
+const menu = ['Run', 'Walk', 'Tool', 'Exit']
+let toolGrab = tools[Math.floor(Math.random() * tools.length)];
 
-function game(){
-    const attackPower = Math.floor(Math.random() * (7 - 4 + 3) + 4);
-    const villain = villains[Math.floor(Math.random() * villains.length)];
-    let villainsHealth = 50;
-    const villainsPower = Math.floor(Math.random() * (7 - 3 + 4) + 3);
+function kryptKeeper() {
+    const aP = Math.floor(Math.random() * (9 - 3 + 4) + 4)
+    const villain = enemies[Math.floor(Math.random() * enemies.length)]
+    let eH = 42
+    const eP = Math.floor(Math.random() * (9 - 4 + 2) + 4)
+    const index = readlineSync.keyInSelect(menu, 'What will you do next?')
 
-    const index = readlineSync.keyInSelect(options, "What will you do next?");
-
-    if(options[index] == 'Exit') {
-        return userHealth = 0;
-    } else if (options[index] == 'Print') {
-        console.log(name + ': \n' + userHealth + '\nTreasure: ' + pickUp);
-    } else if (options[index] === 'Walk'){
-        let key = Math.random();
+    if (menu[index] == 'Exit') {``
+        return pH = 0;
+    } else if (menu[index] == 'Tool') {
+        console.log(name + ': \n' + pH + '\nTool Box: ' + toolGrab)
+    } else if (menu[index] == 'Run') {
+        console.log('You Can Run, But You Wont Escape the Krypt that Way!')
+        console.log('----------------------------------------------------------------------------------------------------------')
+    } else if (menu[index] === 'Walk') {
+        let key = Math.random()
         if (key <= .3) {
-            console.log('Walking......');
+            console.log('walking... ')
         } else if (key >= .3) {
-            console.log(villain + ' showed up.');
+            console.log(villain + ' has blocked your passage.')
 
-            while(villainsHealth > 0 && userHealth > 0) {
+            while (eH > 0 && pH > 0) {
 
-                const user = readlineSync.question(' What do yo want to do? enter "r" to run or "a" to attack: ');
+                const player = readlineSync.question('What do you want to do? Enter "r" to run the other way or "a" to attack. Enter "h" for health stats: ')
 
-                switch (user){
-                    case 'r': //runaway
-                    const run = Math.random()
-                    if(run < .4) {
-                        console.log('Before you can run away ' + villains + ' attacks you with: ' + villainsPower);
-                    } else {
-                        console.log('You Ran Away!!');
-                        break;
-                    }
-
-                    case 'a':
-                    //attack the enemy
-                    villainsHealth -= attackPower;
-                    console.log('You attacked ' + villain + ' with ' + attackPower + ' attack Power');
-
-                    if (villainsHealth <= 0){
-                        console.log('You killed' + villain + '.\n' + villain + 'left: ' + pickUp);
-                        let loot = Math.random();
-                        if(loot <= .3){
-                            prize.push(pickUp);
+                switch (player) {
+                    case 'r':
+                        const run = Math.random()
+                        if (run < .7) {
+                            console.log('Before you can run ' + villain + ' attacked you with: ' + eP)
+                            console.log('----------------------------------------------------------------------------------------------------------')
+                        } else {
+                            console.log('You fall into a sink hole while running away... GAME OVER!!')
+                            console.log('----------------------------------------------------------------------------------------------------------')
+                            return pH = 0;
+                            
                         }
-                    } else if (userHealth <= 0){
-                        console.log( villain + ' has defeated you. you are dead.')
-                    }
+                    case 'a':
+                        eH -= aP
+                        console.log('You Struck the ' + villain + ' with ' + aP + ' attack power. His health is down to ' + eH)
+                        console.log('----------------------------------------------------------------------------------------------------------')
+
+                        pH -= eP
+                        console.log(villain + ' just attacked you with: ' + eP + ' attack power.' + '\nYour  health is down to ' + pH)
+                        console.log('----------------------------------------------------------------------------------------------------------')
+
+                        if (eH <= 0) {
+                            console.log('You defeated the villain!!' + '\n' + villain + ' ran away: ' + 'Here is your way out.. Player Received: ' + '\n' + toolGrab + ' and uses it to escape the Krypt!!.. Bye For Now' )
+                            console.log('----------------------------------------------------------------------------------------------------------')
+                    
+                            
+                            let loot = Math.random()
+                            if (loot <= .4) {
+                                escape.push(toolGrab)
+                                
+                            }
+                            return pH = 0;
+                            
+                        } else if (pH <= 0) {
+                            console.log(name + ' YOU HAVE RUN OUT OF HEALTH AND WILL DIE IN THIS KRYPT.. GAME OVER!!')
+                            console.log('----------------------------------------------------------------------------------------------------------')
+                            
+                        }
+                    
+                    case 'h':
+                        pH = pH
+                        console.log('Your health is ' + pH + '  ' + 'Your enemies health is ' + eH)
                 }
             }
         }
     }
 }
 
-while(userHealth > 0){
-    userRestore = function(){
-        userActive = true;
-        userHealth = 50;
+while (pH > 0) {
+    playerContinue = function () {
+        playerActive = true;
+        pH = 35
     };
-    userRestore();
-    game();
+    playerContinue()
+    kryptKeeper()
 }
